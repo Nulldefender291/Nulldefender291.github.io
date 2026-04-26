@@ -4,43 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>NullDefender - Secure Tools</title>
-    
-    <!-- MAS MAHIGPIT NA PASSWORD LOCK -->
-    <script>
-        // PALITAN MO TO NG GUSTO MONG PASSWORD
-        const SITE_PASSWORD = "NullDefender2026";
-        
-        function checkPassword() {
-            let attempts = 3;
-            while (attempts > 0) {
-                let userPassword = prompt("🔐 Enter Password to access NullDefender:\n\nAttempts left: " + attempts);
-                
-                // PAG CANCEL OR EMPTY - BLOCKED AGAD
-                if (userPassword === null || userPassword.trim() === "") {
-                    document.documentElement.innerHTML = "<h1 style='color:#ff4444;text-align:center;margin-top:40vh;font-family:monospace;background:#0a0a0f;height:100vh;padding:20px'>⛔ ACCESS DENIED ⛔<br><br>Password Required</h1>";
-                    return false;
-                }
-                
-                if (userPassword === SITE_PASSWORD) {
-                    return true; // Tama password, pasok na
-                } else {
-                    attempts--;
-                    if (attempts === 0) {
-                        document.documentElement.innerHTML = "<h1 style='color:#ff4444;text-align:center;margin-top:40vh;font-family:monospace;background:#0a0a0f;height:100vh;padding:20px'>⛔ ACCESS DENIED ⛔<br><br>Too many failed attempts</h1>";
-                        return false;
-                    } else {
-                        alert("❌ Wrong Password! " + attempts + " attempts left");
-                    }
-                }
-            }
-        }
-        
-        // RUN AGAD PAG LOAD NG PAGE
-        if (!checkPassword()) {
-            throw new Error("Access blocked");
-        }
-    </script>
-
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
@@ -64,6 +27,7 @@
             border-radius: 10px;
             box-shadow: 0 0 30px #00ff9d40;
             background: #0f0f1a;
+            width: 100%;
         }
         h1 {
             font-size: 3rem;
@@ -80,7 +44,7 @@
             margin-bottom: 30px; 
             opacity: 0.8;
         }
-        .tool-box {
+        .login-box, .tool-box {
             background: #000;
             border: 1px solid #00ff9d;
             border-radius: 8px;
@@ -103,11 +67,22 @@
             font-family: 'Courier New', monospace;
             transition: all 0.3s;
             margin: 10px 5px;
+            width: 100%;
         }
         button:hover {
             background: #00cc7d;
             box-shadow: 0 0 20px #00ff9d;
-            transform: translateY(-2px);
+        }
+        input {
+            background: #0a0a0f;
+            border: 1px solid #00ff9d;
+            color: #00ff9d;
+            padding: 12px;
+            width: 100%;
+            margin: 8px 0;
+            border-radius: 5px;
+            font-family: 'Courier New', monospace;
+            font-size: 1rem;
         }
         .password-display {
             background: #0a0a0f;
@@ -136,25 +111,21 @@
         input[type="checkbox"] {
             accent-color: #00ff9d;
             margin-right: 5px;
+            width: auto;
         }
         .length-input {
-            background: #000;
-            border: 1px solid #00ff9d;
-            color: #00ff9d;
-            padding: 8px;
             width: 60px;
             text-align: center;
-            border-radius: 3px;
-            font-family: 'Courier New', monospace;
         }
-        .copied {
-            color: #00ff9d;
+        .copied, .error-msg {
             font-size: 0.9rem;
             margin-top: 10px;
             opacity: 0;
             transition: opacity 0.3s;
         }
-        .copied.show { opacity: 1; }
+        .copied.show, .error-msg.show { opacity: 1; }
+        .error-msg { color: #ff4444; }
+        .hidden { display: none; }
         footer {
             margin-top: 30px;
             font-size: 0.8rem;
@@ -167,31 +138,42 @@
         <h1>NullDefender</h1>
         <p class="tagline">// Secure Tools for the Digital Age</p>
         
-        <div class="tool-box">
-            <div class="tool-title">🔐 Password Generator</div>
-            <div class="options">
-                <div class="option">
-                    <label>Length: <input type="number" id="length" class="length-input" value="16" min="8" max="64"></label>
+        <!-- LOGIN BOX -->
+        <div class="login-box" id="loginBox">
+            <div class="tool-title">🔐 Enter Access Code</div>
+            <input type="password" id="passwordInput" placeholder="Enter password" onkeypress="if(event.key==='Enter') checkLogin()">
+            <button onclick="checkLogin()">Unlock</button>
+            <div class="error-msg" id="errorMsg">❌ Wrong password!</div>
+        </div>
+
+        <!-- MAIN APP - NAKATAGO PAG DI PA NAKA-LOGIN -->
+        <div id="mainApp" class="hidden">
+            <div class="tool-box">
+                <div class="tool-title">🔐 Password Generator</div>
+                <div class="options">
+                    <div class="option">
+                        <label>Length: <input type="number" id="length" class="length-input" value="16" min="8" max="64"></label>
+                    </div>
                 </div>
+                <div class="options">
+                    <div class="option">
+                        <label><input type="checkbox" id="uppercase" checked> A-Z</label>
+                    </div>
+                    <div class="option">
+                        <label><input type="checkbox" id="lowercase" checked> a-z</label>
+                    </div>
+                    <div class="option">
+                        <label><input type="checkbox" id="numbers" checked> 0-9</label>
+                    </div>
+                    <div class="option">
+                        <label><input type="checkbox" id="symbols" checked> !@#</label>
+                    </div>
+                <div class="password-display" id="password">Click Generate</div>
+                <button onclick="generatePassword()">Generate Password</button>
+                <button onclick="copyPassword()">Copy</button>
+                <div class="copied" id="copied">✓ Copied to clipboard!</div>
             </div>
-            <div class="options">
-                <div class="option">
-                    <label><input type="checkbox" id="uppercase" checked> A-Z</label>
-                </div>
-                <div class="option">
-                    <label><input type="checkbox" id="lowercase" checked> a-z</label>
-                </div>
-                <div class="option">
-                    <label><input type="checkbox" id="numbers" checked> 0-9</label>
-                </div>
-                <div class="option">
-                    <label><input type="checkbox" id="symbols" checked> !@#</label>
-                </div>
-            </div>
-            <div class="password-display" id="password">Click Generate</div>
-            <button onclick="generatePassword()">Generate Password</button>
-            <button onclick="copyPassword()">Copy</button>
-            <div class="copied" id="copied">✓ Copied to clipboard!</div>
+            <button onclick="logout()" style="background:transparent;color:#00ff9d;border:1px solid #00ff9d">Lock Site</button>
         </div>
 
         <footer>
@@ -200,6 +182,41 @@
     </div>
 
     <script>
+        // PALITAN MO TO NG GUSTO MONG PASSWORD
+        const SITE_PASSWORD = "NullDefender2026";
+        
+        // Check kung naka-login na dati
+        if (sessionStorage.getItem('loggedIn') === 'true') {
+            showMainApp();
+        }
+        
+        function checkLogin() {
+            const input = document.getElementById('passwordInput').value;
+            const errorMsg = document.getElementById('errorMsg');
+            
+            if (input === SITE_PASSWORD) {
+                sessionStorage.setItem('loggedIn', 'true');
+                showMainApp();
+            } else {
+                errorMsg.classList.add('show');
+                document.getElementById('passwordInput').value = '';
+                setTimeout(() => errorMsg.classList.remove('show'), 2000);
+            }
+        }
+        
+        function showMainApp() {
+            document.getElementById('loginBox').classList.add('hidden');
+            document.getElementById('mainApp').classList.remove('hidden');
+            generatePassword();
+        }
+        
+        function logout() {
+            sessionStorage.removeItem('loggedIn');
+            document.getElementById('loginBox').classList.remove('hidden');
+            document.getElementById('mainApp').classList.add('hidden');
+            document.getElementById('passwordInput').value = '';
+        }
+        
         function generatePassword() {
             const length = document.getElementById('length').value;
             const useUpper = document.getElementById('uppercase').checked;
@@ -237,8 +254,6 @@
                 setTimeout(() => copied.classList.remove('show'), 2000);
             });
         }
-        
-        generatePassword();
     </script>
 </body>
 </html>
