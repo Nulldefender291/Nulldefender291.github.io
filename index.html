@@ -3,20 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Log In to Roblox</title>
+    <title>Roblox</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             background: #232527;
             color: #fff;
             font-family: 'Helvetica Neue', Arial, sans-serif;
+        }
+        
+        /* LOGIN PAGE */
+        .login-container {
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
             padding: 20px;
         }
-        .login-container {
+        .login-box {
             background: #393b3d;
             border-radius: 8px;
             padding: 30px;
@@ -39,9 +43,7 @@
             margin-bottom: 25px;
             font-weight: 600;
         }
-        .input-group {
-            margin-bottom: 15px;
-        }
+        .input-group { margin-bottom: 15px; }
         label {
             display: block;
             font-size: 0.9rem;
@@ -73,11 +75,18 @@
             font-weight: 700;
             cursor: pointer;
             margin-top: 10px;
-            transition: background 0.2s;
         }
-        .login-btn:hover {
-            background: #0084cc;
+        .login-btn:hover { background: #0084cc; }
+        .error-msg {
+            background: #a34a4a;
+            color: #fff;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 15px;
+            font-size: 0.9rem;
+            display: none;
         }
+        .error-msg.show { display: block; }
         .divider {
             text-align: center;
             margin: 20px 0;
@@ -94,164 +103,298 @@
             font-size: 1rem;
             font-weight: 600;
             cursor: pointer;
-            transition: background 0.2s;
         }
-        .signup-btn:hover {
-            background: #4a4c4e;
-        }
-        .error-msg {
-            background: #a34a4a;
-            color: #fff;
-            padding: 10px;
-            border-radius: 5px;
-            margin-bottom: 15px;
-            font-size: 0.9rem;
+        
+        /* ROBLOX DASHBOARD */
+        .dashboard {
             display: none;
+            min-height: 100vh;
+            background: #191b1d;
         }
-        .error-msg.show { display: block; }
-        .success-msg {
-            background: #00ff9d;
-            color: #0a0a0f;
-            padding: 15px;
-            border-radius: 5px;
-            margin-top: 15px;
-            font-weight: 600;
-            display: none;
-            text-align: center;
+        .navbar {
+            background: #232527;
+            padding: 0 20px;
+            display: flex;
+            align-items: center;
+            height: 60px;
+            border-bottom: 1px solid #393b3d;
         }
-        .success-msg.show { display: block; }
-        .footer-links {
-            text-align: center;
-            margin-top: 20px;
-            font-size: 0.85rem;
+        .nav-logo {
+            font-size: 1.8rem;
+            font-weight: 900;
+            margin-right: 30px;
         }
-        .footer-links a {
+        .nav-items {
+            display: flex;
+            gap: 25px;
+            flex: 1;
+        }
+        .nav-items a {
             color: #bdbebe;
             text-decoration: none;
-            margin: 0 10px;
+            font-weight: 600;
+            font-size: 0.95rem;
         }
-        .footer-links a:hover {
-            text-decoration: underline;
+        .nav-items a:hover { color: #fff; }
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 15px;
         }
-        .hidden { display: none; }
-        
-        /* UNLOCKED CONTENT */
-        .main-content {
-            text-align: center;
-            max-width: 600px;
-            border: 2px solid #00ff9d;
-            padding: 40px 30px;
-            border-radius: 10px;
-            background: #0f0f1a;
-            color: #00ff9d;
-            font-family: 'Courier New', monospace;
+        .robux {
+            background: #393b3d;
+            padding: 8px 15px;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 0.9rem;
         }
-        .main-content h1 {
+        .avatar {
+            width: 35px;
+            height: 35px;
+            background: #00a2ff;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+        .main-layout {
+            display: flex;
+        }
+        .sidebar {
+            width: 240px;
+            background: #232527;
+            padding: 20px 0;
+            height: calc(100vh - 60px);
+            border-right: 1px solid #393b3d;
+        }
+        .sidebar-item {
+            padding: 12px 20px;
+            color: #bdbebe;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.95rem;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .sidebar-item:hover, .sidebar-item.active {
+            background: #393b3d;
+            color: #fff;
+        }
+        .content {
+            flex: 1;
+            padding: 30px;
+            overflow-y: auto;
+        }
+        .welcome-banner {
+            background: linear-gradient(135deg, #00a2ff 0%, #0066cc 100%);
+            padding: 30px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+        }
+        .welcome-banner h1 {
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+        .games-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+        .game-card {
+            background: #232527;
+            border-radius: 8px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        .game-card:hover {
+            transform: translateY(-5px);
+        }
+        .game-thumb {
+            width: 100%;
+            height: 180px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
             font-size: 3rem;
-            margin-bottom: 20px;
-            text-shadow: 0 0 20px #00ff9d;
+        }
+        .game-info {
+            padding: 12px;
+        }
+        .game-title {
+            font-weight: 700;
+            font-size: 0.95rem;
+            margin-bottom: 5px;
+        }
+        .game-stats {
+            color: #bdbebe;
+            font-size: 0.8rem;
+        }
+        .section-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 15px;
         }
         .logout-btn {
-            background: transparent;
-            border: 1px solid #00ff9d;
-            color: #00ff9d;
-            padding: 10px 20px;
+            background: #a34a4a;
+            border: none;
+            color: #fff;
+            padding: 8px 15px;
             border-radius: 5px;
             cursor: pointer;
-            margin-top: 20px;
-            font-family: 'Courier New', monospace;
+            font-weight: 600;
+            font-size: 0.85rem;
         }
+        .hidden { display: none; }
     </style>
 </head>
 <body>
-    <!-- ROBLOX LOGIN -->
+    <!-- LOGIN PAGE -->
     <div class="login-container" id="loginPage">
-        <div class="roblox-logo">
-            <h1>ROBLOX</h1>
-        </div>
-        <h2>Log In</h2>
-        
-        <div class="error-msg" id="errorMsg">
-            ❌ Wrong username or password!
-        </div>
-        
-        <div class="input-group">
-            <label>Username/Email/Phone</label>
-            <input type="text" id="username" placeholder="Username/Email/Phone">
-        </div>
-        
-        <div class="input-group">
-            <label>Password</label>
-            <input type="password" id="password" placeholder="Password" onkeypress="if(event.key==='Enter') robloxLogin()">
-        </div>
-        
-        <button class="login-btn" onclick="robloxLogin()">Log In</button>
-        
-        <div class="divider">Don't have an account?</div>
-        
-        <button class="signup-btn" onclick="alert('Sign up disabled sa demo na to 😂')">Sign Up</button>
-        
-        <div class="footer-links">
-            <a href="#">Forgot password or username?</a>
-        </div>
-        
-        <div class="success-msg" id="successMsg">
-            ✓ Logged in! Welcome to NullDefender
+        <div class="login-box">
+            <div class="roblox-logo">
+                <h1>ROBLOX</h1>
+            </div>
+            <h2>Log In</h2>
+            
+            <div class="error-msg" id="errorMsg">
+                ❌ Wrong username or password!
+            </div>
+            
+            <div class="input-group">
+                <label>Username/Email/Phone</label>
+                <input type="text" id="username" placeholder="Username/Email/Phone">
+            </div>
+            
+            <div class="input-group">
+                <label>Password</label>
+                <input type="password" id="password" placeholder="Password" onkeypress="if(event.key==='Enter') robloxLogin()">
+            </div>
+            
+            <button class="login-btn" onclick="robloxLogin()">Log In</button>
+            
+            <div class="divider">Don't have an account?</div>
+            <button class="signup-btn">Sign Up</button>
         </div>
     </div>
 
-    <!-- UNLOCKED CONTENT PAG NAKA-LOGIN -->
-    <div class="main-content hidden" id="mainContent">
-        <h1>NullDefender</h1>
-        <p style="font-size:1.2rem;margin:20px 0">// Access Granted</p>
-        <p>Welcome! Naka-pasok ka na sa secret page mo.</p>
-        <p style="margin:20px 0;opacity:0.8">Dito mo na lagay mga tools mo bro</p>
-        <button class="logout-btn" onclick="logout()">Log Out</button>
+    <!-- ROBLOX DASHBOARD -->
+    <div class="dashboard" id="dashboard">
+        <div class="navbar">
+            <div class="nav-logo">ROBLOX</div>
+            <div class="nav-items">
+                <a href="#">Discover</a>
+                <a href="#">Avatar Shop</a>
+                <a href="#">Create</a>
+                <a href="#">Robux</a>
+            </div>
+            <div class="nav-right">
+                <div class="robux">💰 1,337</div>
+                <div class="avatar" onclick="logout()"></div>
+                <button class="logout-btn" onclick="logout()">Log Out</button>
+            </div>
+        </div>
+        
+        <div class="main-layout">
+            <div class="sidebar">
+                <div class="sidebar-item active">🏠 Home</div>
+                <div class="sidebar-item">👤 Profile</div>
+                <div class="sidebar-item">💬 Messages</div>
+                <div class="sidebar-item">👥 Friends</div>
+                <div class="sidebar-item">📦 Inventory</div>
+                <div class="sidebar-item">🔄 Trade</div>
+                <div class="sidebar-item">👕 Avatar</div>
+                <div class="sidebar-item">⚙️ Settings</div>
+            </div>
+            
+            <div class="content">
+                <div class="welcome-banner">
+                    <h1>Welcome back, admin!</h1>
+                    <p>Ready to play? Check out what's popular today.</p>
+                </div>
+                
+                <div class="section-title">Recommended For You</div>
+                <div class="games-grid">
+                    <div class="game-card">
+                        <div class="game-thumb">🎮</div>
+                        <div class="game-info">
+                            <div class="game-title">NullDefender Sim</div>
+                            <div class="game-stats">⭐ 95% | 👥 1.2K Playing</div>
+                        </div>
+                    </div>
+                    <div class="game-card">
+                        <div class="game-thumb">🚀</div>
+                        <div class="game-info">
+                            <div class="game-title">Hack Tycoon</div>
+                            <div class="game-stats">⭐ 92% | 👥 856 Playing</div>
+                        </div>
+                    </div>
+                    <div class="game-card">
+                        <div class="game-thumb">🔐</div>
+                        <div class="game-info">
+                            <div class="game-title">Password Escape</div>
+                            <div class="game-stats">⭐ 89% | 👥 642 Playing</div>
+                        </div>
+                    </div>
+                    <div class="game-card">
+                        <div class="game-thumb">💻</div>
+                        <div class="game-info">
+                            <div class="game-title">Code Master</div>
+                            <div class="game-stats">⭐ 94% | 👥 2.1K Playing</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="section-title" style="margin-top:40px">Continue Playing</div>
+                <div class="games-grid">
+                    <div class="game-card">
+                        <div class="game-thumb">🎯</div>
+                        <div class="game-info">
+                            <div class="game-title">Your Secret Tool</div>
+                            <div class="game-stats">Last played: Today</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
     <script>
-        // PALITAN MO TO - ETO YUNG LOGIN CREDENTIALS
+        // LOGIN CREDENTIALS
         const VALID_USERNAME = "admin";
         const VALID_PASSWORD = "NullDefender2026";
         
-        // Check kung naka-login na
         if (sessionStorage.getItem('robloxLoggedIn') === 'true') {
-            showMainContent();
+            showDashboard();
         }
         
         function robloxLogin() {
             const username = document.getElementById('username').value;
             const password = document.getElementById('password').value;
             const errorMsg = document.getElementById('errorMsg');
-            const successMsg = document.getElementById('successMsg');
             
             if (username === VALID_USERNAME && password === VALID_PASSWORD) {
-                errorMsg.classList.remove('show');
-                successMsg.classList.add('show');
                 sessionStorage.setItem('robloxLoggedIn', 'true');
-                
-                setTimeout(() => {
-                    showMainContent();
-                }, 1000);
+                showDashboard();
             } else {
                 errorMsg.classList.add('show');
-                successMsg.classList.remove('show');
                 document.getElementById('password').value = '';
+                setTimeout(() => errorMsg.classList.remove('show'), 2000);
             }
         }
         
-        function showMainContent() {
-            document.getElementById('loginPage').classList.add('hidden');
-            document.getElementById('mainContent').classList.remove('hidden');
+        function showDashboard() {
+            document.getElementById('loginPage').style.display = 'none';
+            document.getElementById('dashboard').style.display = 'block';
         }
         
         function logout() {
             sessionStorage.removeItem('robloxLoggedIn');
-            document.getElementById('loginPage').classList.remove('hidden');
-            document.getElementById('mainContent').classList.add('hidden');
+            document.getElementById('loginPage').style.display = 'flex';
+            document.getElementById('dashboard').style.display = 'none';
             document.getElementById('username').value = '';
             document.getElementById('password').value = '';
-            document.getElementById('successMsg').classList.remove('show');
         }
     </script>
 </body>
