@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Roblox</title>
+    <title>Roblox - Account Protection</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
@@ -79,7 +79,6 @@
             font-size: 1.2rem;
             padding: 0;
         }
-        .show-pass:hover { color: #fff; }
         .login-btn {
             width: 100%;
             padding: 12px;
@@ -103,25 +102,8 @@
             display: none;
         }
         .error-msg.show { display: block; }
-        .divider {
-            text-align: center;
-            margin: 20px 0;
-            color: #bdbebe;
-            font-size: 0.9rem;
-        }
-        .signup-btn {
-            width: 100%;
-            padding: 12px;
-            background: transparent;
-            border: 1px solid #bdbebe;
-            border-radius: 8px;
-            color: #fff;
-            font-size: 1rem;
-            font-weight: 600;
-            cursor: pointer;
-        }
         
-        /* ROBLOX DASHBOARD */
+        /* DASHBOARD */
         .dashboard {
             display: none;
             min-height: 100vh;
@@ -140,29 +122,11 @@
             font-weight: 900;
             margin-right: 30px;
         }
-        .nav-items {
-            display: flex;
-            gap: 25px;
-            flex: 1;
-        }
-        .nav-items a {
-            color: #bdbebe;
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 0.95rem;
-        }
-        .nav-items a:hover { color: #fff; }
         .nav-right {
             display: flex;
             align-items: center;
             gap: 15px;
-        }
-        .robux {
-            background: #393b3d;
-            padding: 8px 15px;
-            border-radius: 8px;
-            font-weight: 700;
-            font-size: 0.9rem;
+            margin-left: auto;
         }
         .avatar {
             width: 35px;
@@ -171,32 +135,10 @@
             border-radius: 50%;
             cursor: pointer;
         }
-        .main-layout { display: flex; }
-        .sidebar {
-            width: 240px;
-            background: #232527;
-            padding: 20px 0;
-            height: calc(100vh - 60px);
-            border-right: 1px solid #393b3d;
-        }
-        .sidebar-item {
-            padding: 12px 20px;
-            color: #bdbebe;
-            cursor: pointer;
-            font-weight: 600;
-            font-size: 0.95rem;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-        .sidebar-item:hover, .sidebar-item.active {
-            background: #393b3d;
-            color: #fff;
-        }
         .content {
-            flex: 1;
             padding: 30px;
-            overflow-y: auto;
+            max-width: 1200px;
+            margin: 0 auto;
         }
         .welcome-banner {
             background: linear-gradient(135deg, #00a2ff 0%, #0066cc 100%);
@@ -208,63 +150,85 @@
             font-size: 2rem;
             margin-bottom: 10px;
         }
-        .account-info {
-            background: #232527;
-            padding: 20px;
-            border-radius: 8px;
-            margin-bottom: 30px;
-            border: 1px solid #00a2ff;
-        }
-        .account-info h3 {
-            margin-bottom: 15px;
-            color: #00a2ff;
-        }
-        .info-row {
+        
+        /* PROTECTED ACCOUNTS SECTION */
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 20px;
             display: flex;
-            justify-content: space-between;
-            padding: 10px 0;
-            border-bottom: 1px solid #393b3d;
+            align-items: center;
+            gap: 10px;
         }
-        .info-row:last-child { border-bottom: none; }
-        .info-label { color: #bdbebe; }
-        .info-value { font-weight: 700; }
-        .games-grid {
+        .accounts-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
             gap: 15px;
-            margin-top: 20px;
+            margin-bottom: 30px;
         }
-        .game-card {
+        .account-card {
             background: #232527;
-            border-radius: 8px;
-            overflow: hidden;
-            cursor: pointer;
-            transition: transform 0.2s;
+            border: 2px solid #393b3d;
+            border-radius: 12px;
+            padding: 20px;
+            transition: all 0.3s;
         }
-        .game-card:hover { transform: translateY(-5px); }
-        .game-thumb {
-            width: 100%;
-            height: 180px;
+        .account-card:hover {
+            border-color: #00a2ff;
+            transform: translateY(-3px);
+        }
+        .account-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+        .account-avatar {
+            width: 50px;
+            height: 50px;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 3rem;
+            font-size: 1.5rem;
+            font-weight: 900;
         }
-        .game-info { padding: 12px; }
-        .game-title {
+        .account-name {
+            font-size: 1.1rem;
             font-weight: 700;
-            font-size: 0.95rem;
-            margin-bottom: 5px;
         }
-        .game-stats {
+        .account-status {
+            display: inline-block;
+            padding: 4px 12px;
+            background: #00a2ff;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            margin-top: 5px;
+        }
+        .account-status.safe {
+            background: #00ff9d;
+            color: #000;
+        }
+        .account-info {
             color: #bdbebe;
-            font-size: 0.8rem;
+            font-size: 0.9rem;
+            line-height: 1.6;
         }
-        .section-title {
-            font-size: 1.3rem;
-            font-weight: 700;
-            margin-bottom: 15px;
+        .add-account-btn {
+            background: #393b3d;
+            border: 2px dashed #565656;
+            border-radius: 12px;
+            padding: 40px 20px;
+            text-align: center;
+            cursor: pointer;
+            color: #bdbebe;
+            font-weight: 600;
+        }
+        .add-account-btn:hover {
+            border-color: #00a2ff;
+            color: #00a2ff;
         }
         .logout-btn {
             background: #a34a4a;
@@ -276,7 +240,24 @@
             font-weight: 600;
             font-size: 0.85rem;
         }
-        .hidden { display: none; }
+        .stats-box {
+            background: #232527;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: space-around;
+            text-align: center;
+        }
+        .stat-item h3 {
+            font-size: 2rem;
+            color: #00a2ff;
+            margin-bottom: 5px;
+        }
+        .stat-item p {
+            color: #bdbebe;
+            font-size: 0.9rem;
+        }
     </style>
 </head>
 <body>
@@ -286,15 +267,15 @@
             <div class="roblox-logo">
                 <h1>ROBLOX</h1>
             </div>
-            <h2>Log In</h2>
+            <h2>Admin Login</h2>
             
             <div class="error-msg" id="errorMsg">
                 ❌ Wrong username or password!
             </div>
             
             <div class="input-group">
-                <label>Username/Email/Phone</label>
-                <input type="text" id="username" placeholder="Username/Email/Phone">
+                <label>Username</label>
+                <input type="text" id="username" placeholder="Admin Username">
             </div>
             
             <div class="input-group">
@@ -304,95 +285,80 @@
             </div>
             
             <button class="login-btn" onclick="robloxLogin()">Log In</button>
-            
-            <div class="divider">Don't have an account?</div>
-            <button class="signup-btn">Sign Up</button>
         </div>
     </div>
 
-    <!-- ROBLOX DASHBOARD -->
+    <!-- DASHBOARD -->
     <div class="dashboard" id="dashboard">
         <div class="navbar">
-            <div class="nav-logo">ROBLOX</div>
-            <div class="nav-items">
-                <a href="#">Discover</a>
-                <a href="#">Avatar Shop</a>
-                <a href="#">Create</a>
-                <a href="#">Robux</a>
-            </div>
+            <div class="nav-logo">ROBLOX SHIELD</div>
             <div class="nav-right">
-                <div class="robux">💰 1,337</div>
-                <div class="avatar" onclick="logout()"></div>
                 <button class="logout-btn" onclick="logout()">Log Out</button>
+                <div class="avatar"></div>
             </div>
         </div>
         
-        <div class="main-layout">
-            <div class="sidebar">
-                <div class="sidebar-item active">🏠 Home</div>
-                <div class="sidebar-item">👤 Profile</div>
-                <div class="sidebar-item">💬 Messages</div>
-                <div class="sidebar-item">👥 Friends</div>
-                <div class="sidebar-item">📦 Inventory</div>
-                <div class="sidebar-item">🔄 Trade</div>
-                <div class="sidebar-item">👕 Avatar</div>
-                <div class="sidebar-item">⚙️ Settings</div>
+        <div class="content">
+            <div class="welcome-banner">
+                <h1>🛡️ Account Protection Dashboard</h1>
+                <p>Monitoring mo lahat ng Roblox accounts na prinoprotektahan mo</p>
             </div>
             
-            <div class="content">
-                <div class="welcome-banner">
-                    <h1 id="welcomeText">Welcome back!</h1>
-                    <p>Ready to play? Check out what's popular today.</p>
+            <div class="stats-box">
+                <div class="stat-item">
+                    <h3 id="totalAccounts">0</h3>
+                    <p>Protected Accounts</p>
                 </div>
-                
-                <!-- ACCOUNT INFO - DITO MAKIKITA PASSWORD -->
-                <div class="account-info">
-                    <h3>🔐 Account Info</h3>
-                    <div class="info-row">
-                        <span class="info-label">Username:</span>
-                        <span class="info-value" id="displayUsername">-</span>
-                    </div>
-                    <div class="info-row">
-                        <span class="info-label">Password:</span>
-                        <span class="info-value" id="displayPassword">-</span>
-                    </div>
-                    <div class="info-row">
-                        <span class="info-label">Status:</span>
-                        <span class="info-value" style="color:#00ff9d">✓ Active</span>
-                    </div>
+                <div class="stat-item">
+                    <h3>100%</h3>
+                    <p>Security Status</p>
                 </div>
-                
-                <div class="section-title">Recommended For You</div>
-                <div class="games-grid">
-                    <div class="game-card">
-                        <div class="game-thumb">🎮</div>
-                        <div class="game-info">
-                            <div class="game-title">NullDefender Sim</div>
-                            <div class="game-stats">⭐ 95% | 👥 1.2K Playing</div>
-                        </div>
-                    <div class="game-card">
-                        <div class="game-thumb">🚀</div>
-                        <div class="game-info">
-                            <div class="game-title">Hack Tycoon</div>
-                            <div class="game-stats">⭐ 92% | 👥 856 Playing</div>
-                        </div>
-                    </div>
-                    <div class="game-card">
-                        <div class="game-thumb">🔐</div>
-                        <div class="game-info">
-                            <div class="game-title">Password Escape</div>
-                            <div class="game-stats">⭐ 89% | 👥 642 Playing</div>
-                        </div>
-                    </div>
+                <div class="stat-item">
+                    <h3>24/7</h3>
+                    <p>Monitoring</p>
                 </div>
+            </div>
+            
+            <div class="section-title">
+                🔐 Protected Roblox Accounts
+            </div>
+            
+            <div class="accounts-grid" id="accountsGrid">
+                <!-- Accounts lalabas dito via JavaScript -->
             </div>
         </div>
     </div>
 
     <script>
-        // LOGIN CREDENTIALS
+        // LOGIN CREDENTIALS - PALITAN MO TO
         const VALID_USERNAME = "admin";
         const VALID_PASSWORD = "NullDefender2026";
+        
+        // ========================================
+        // LISTAHAN NG ROBLOX ACCOUNTS MO - EDIT MO TO
+        // ========================================
+        const PROTECTED_ACCOUNTS = [
+            {
+                username: "NullDefender291",
+                status: "Safe",
+                note: "admin",
+                avatar: "N"
+            },
+            {
+                username: "Wilbert_Gimoro12",
+                status: "Safe", 
+                note: "Alt Account",
+                avatar: "R"
+            },
+            {
+                username: "wanitoSaludares",
+                status: "Safe",
+                note: "Client Account",
+                avatar: "B"
+            }
+            // DAGDAG KA DITO: { username: "BagongAccount", status: "Safe", note: "Note mo", avatar: "X" },
+        ];
+        // ========================================
         
         if (sessionStorage.getItem('robloxLoggedIn') === 'true') {
             showDashboard();
@@ -417,9 +383,6 @@
             const errorMsg = document.getElementById('errorMsg');
             
             if (username === VALID_USERNAME && password === VALID_PASSWORD) {
-                // SAVE CREDENTIALS PARA MA-DISPLAY
-                sessionStorage.setItem('loggedUsername', username);
-                sessionStorage.setItem('loggedPassword', password);
                 sessionStorage.setItem('robloxLoggedIn', 'true');
                 showDashboard();
             } else {
@@ -432,19 +395,38 @@
         function showDashboard() {
             document.getElementById('loginPage').style.display = 'none';
             document.getElementById('dashboard').style.display = 'block';
+            loadAccounts();
+        }
+        
+        function loadAccounts() {
+            const grid = document.getElementById('accountsGrid');
+            const totalEl = document.getElementById('totalAccounts');
             
-            // DISPLAY YUNG USERNAME AT PASSWORD
-            const username = sessionStorage.getItem('loggedUsername');
-            const password = sessionStorage.getItem('loggedPassword');
-            document.getElementById('displayUsername').textContent = username;
-            document.getElementById('displayPassword').textContent = password;
-            document.getElementById('welcomeText').textContent = `Welcome back, ${username}!`;
+            totalEl.textContent = PROTECTED_ACCOUNTS.length;
+            grid.innerHTML = '';
+            
+            PROTECTED_ACCOUNTS.forEach(account => {
+                const card = document.createElement('div');
+                card.className = 'account-card';
+                card.innerHTML = `
+                    <div class="account-header">
+                        <div class="account-avatar">${account.avatar}</div>
+                        <div>
+                            <div class="account-name">${account.username}</div>
+                            <div class="account-status safe">✓ ${account.status}</div>
+                        </div>
+                    </div>
+                    <div class="account-info">
+                        📝 ${account.note}<br>
+                        🔒 Protected since: Today
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
         }
         
         function logout() {
             sessionStorage.removeItem('robloxLoggedIn');
-            sessionStorage.removeItem('loggedUsername');
-            sessionStorage.removeItem('loggedPassword');
             document.getElementById('loginPage').style.display = 'flex';
             document.getElementById('dashboard').style.display = 'none';
             document.getElementById('username').value = '';
