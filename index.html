@@ -4,6 +4,32 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>NullDefender - Secure Tools</title>
+    
+    <!-- PASSWORD LOCK - NAKA-LOCK YUNG SITE -->
+    <script>
+        // PALITAN MO TO NG GUSTO MONG PASSWORD
+        const SITE_PASSWORD = "NullDefender2026";
+        
+        let attempts = 3;
+        while (attempts > 0) {
+            let userPassword = prompt("🔐 Enter Password to access NullDefender:\n\nAttempts left: " + attempts);
+            
+            if (userPassword === SITE_PASSWORD) {
+                break; // Tama password, pasok na
+            } else if (userPassword === null) {
+                // Pag nag-cancel
+                document.body.innerHTML = "<h1 style='color:#ff4444;text-align:center;margin-top:50vh;font-family:monospace'>Access Cancelled</h1>";
+                throw new Error("Access cancelled");
+            } else {
+                attempts--;
+                if (attempts === 0) {
+                    document.body.innerHTML = "<h1 style='color:#ff4444;text-align:center;margin-top:50vh;font-family:monospace'>⛔ ACCESS DENIED ⛔<br><br>Too many failed attempts</h1>";
+                    throw new Error("Access denied");
+                }
+            }
+        }
+    </script>
+
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
@@ -42,7 +68,6 @@
             font-size: 1.1rem; 
             margin-bottom: 30px; 
             opacity: 0.8;
-            color: #00ff9d;
         }
         .tool-box {
             background: #000;
@@ -54,7 +79,6 @@
         .tool-title {
             font-size: 1.3rem;
             margin-bottom: 15px;
-            color: #00ff9d;
         }
         button {
             background: #00ff9d;
