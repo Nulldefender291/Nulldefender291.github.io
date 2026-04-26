@@ -1,33 +1,209 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>NullDefender - Roblox Protection</title>
-<style>
-body{background:#0a0e27;color:#e0e0e0;font-family:Arial;margin:0;padding:20px;text-align:center}
-.header{background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);padding:30px;border-radius:12px;margin-bottom:20px}
-.logo{font-size:32px;font-weight:bold}
-.card{background:#1a1f3a;border:1px solid #2d3561;border-radius:12px;padding:20px;margin:15px 0;text-align:left}
-h2{color:#00ff88}
-.tip{background:#2d3561;padding:12px;border-radius:8px;margin:10px 0}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NullDefender - Secure Tools</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            background: #0a0a0f;
+            color: #00ff9d;
+            font-family: 'Courier New', monospace;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+            background-image: 
+                radial-gradient(circle at 20% 50%, #00ff9d10 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, #00ff9d08 0%, transparent 50%);
+        }
+        .container {
+            text-align: center;
+            max-width: 600px;
+            border: 2px solid #00ff9d;
+            padding: 40px 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 30px #00ff9d40;
+            background: #0f0f1a;
+        }
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 10px;
+            text-shadow: 0 0 20px #00ff9d;
+            animation: glow 2s ease-in-out infinite;
+        }
+        @keyframes glow {
+            0%, 100% { text-shadow: 0 0 20px #00ff9d; }
+            50% { text-shadow: 0 0 40px #00ff9d, 0 0 60px #00ff9d; }
+        }
+        .tagline { 
+            font-size: 1.1rem; 
+            margin-bottom: 30px; 
+            opacity: 0.8;
+            color: #00ff9d;
+        }
+        .tool-box {
+            background: #000;
+            border: 1px solid #00ff9d;
+            border-radius: 8px;
+            padding: 25px;
+            margin: 20px 0;
+        }
+        .tool-title {
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+            color: #00ff9d;
+        }
+        button {
+            background: #00ff9d;
+            color: #0a0a0f;
+            border: none;
+            padding: 12px 30px;
+            font-size: 1rem;
+            font-weight: bold;
+            border-radius: 5px;
+            cursor: pointer;
+            font-family: 'Courier New', monospace;
+            transition: all 0.3s;
+            margin: 10px 5px;
+        }
+        button:hover {
+            background: #00cc7d;
+            box-shadow: 0 0 20px #00ff9d;
+            transform: translateY(-2px);
+        }
+        .password-display {
+            background: #0a0a0f;
+            border: 1px solid #00ff9d;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 5px;
+            font-size: 1.1rem;
+            word-break: break-all;
+            min-height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .options {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin: 15px 0;
+            flex-wrap: wrap;
+        }
+        .option label {
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+        input[type="checkbox"] {
+            accent-color: #00ff9d;
+            margin-right: 5px;
+        }
+        .length-input {
+            background: #000;
+            border: 1px solid #00ff9d;
+            color: #00ff9d;
+            padding: 8px;
+            width: 60px;
+            text-align: center;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+        }
+        .copied {
+            color: #00ff9d;
+            font-size: 0.9rem;
+            margin-top: 10px;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        .copied.show { opacity: 1; }
+        footer {
+            margin-top: 30px;
+            font-size: 0.8rem;
+            opacity: 0.6;
+        }
+    </style>
 </head>
 <body>
-<div class="header">
-<div class="logo">🛡️ NULLDEFENDER</div>
-<p>Protecting Your Roblox Accounts 24/7</p>
-</div>
-<div class="card">
-<h2>🔒 5 Ways Para Di Ma-Hack Account Mo</h2>
-<div class="tip"><strong>1. Enable 2-Step Verification</strong><br>Settings → Security → 2-Step Verification</div>
-<div class="tip"><strong>2. Strong Password</strong><br>12+ characters. May numbers at symbols</div>
-<div class="tip"><strong>3. Check Active Sessions</strong><br>Log out mo lahat ng di mo kilala</div>
-<div class="tip"><strong>4. Wag Mag-Click ng Phishing Links</strong><br>Free Robux sites = 100% scam</div>
-<div class="tip"><strong>5. Secure Mo Email Mo</strong><br>Dapat may 2FA din email mo</div>
-</div>
-<p style="font-size:11px;color:#6b7280;margin-top:30px">
-Not affiliated with Roblox Corporation | Fan-made by NullDefender
-</p>
+    <div class="container">
+        <h1>NullDefender</h1>
+        <p class="tagline">// Secure Tools for the Digital Age</p>
+        
+        <div class="tool-box">
+            <div class="tool-title">🔐 Password Generator</div>
+            <div class="options">
+                <div class="option">
+                    <label>Length: <input type="number" id="length" class="length-input" value="16" min="8" max="64"></label>
+                </div>
+            </div>
+            <div class="options">
+                <div class="option">
+                    <label><input type="checkbox" id="uppercase" checked> A-Z</label>
+                </div>
+                <div class="option">
+                    <label><input type="checkbox" id="lowercase" checked> a-z</label>
+                </div>
+                <div class="option">
+                    <label><input type="checkbox" id="numbers" checked> 0-9</label>
+                </div>
+                <div class="option">
+                    <label><input type="checkbox" id="symbols" checked> !@#</label>
+                </div>
+            </div>
+            <div class="password-display" id="password">Click Generate</div>
+            <button onclick="generatePassword()">Generate Password</button>
+            <button onclick="copyPassword()">Copy</button>
+            <div class="copied" id="copied">✓ Copied to clipboard!</div>
+        </div>
+
+        <footer>
+            <p>© 2026 NullDefender | Built for Security</p>
+        </footer>
+    </div>
+
+    <script>
+        function generatePassword() {
+            const length = document.getElementById('length').value;
+            const useUpper = document.getElementById('uppercase').checked;
+            const useLower = document.getElementById('lowercase').checked;
+            const useNumbers = document.getElementById('numbers').checked;
+            const useSymbols = document.getElementById('symbols').checked;
+            
+            let charset = '';
+            if (useUpper) charset += 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+            if (useLower) charset += 'abcdefghijklmnopqrstuvwxyz';
+            if (useNumbers) charset += '0123456789';
+            if (useSymbols) charset += '!@#$%^&*()_+-=[]{}|;:,.<>?';
+            
+            if (charset === '') {
+                document.getElementById('password').textContent = 'Select at least one option';
+                return;
+            }
+            
+            let password = '';
+            for (let i = 0; i < length; i++) {
+                password += charset.charAt(Math.floor(Math.random() * charset.length));
+            }
+            
+            document.getElementById('password').textContent = password;
+            document.getElementById('copied').classList.remove('show');
+        }
+        
+        function copyPassword() {
+            const password = document.getElementById('password').textContent;
+            if (password === 'Click Generate' || password === 'Select at least one option') return;
+            
+            navigator.clipboard.writeText(password).then(() => {
+                const copied = document.getElementById('copied');
+                copied.classList.add('show');
+                setTimeout(() => copied.classList.remove('show'), 2000);
+            });
+        }
+        
+        generatePassword();
+    </script>
 </body>
 </html>
